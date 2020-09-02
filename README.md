@@ -30,7 +30,7 @@ As a library:
 from find_gcp_keys import find_key_paths, find_valid_keys, is_valid_key
 ...
 
-# Determine if a given file is a valid key
+# determine if a given file is a valid key
 if is_valid_key(file_path):
   ...
 
