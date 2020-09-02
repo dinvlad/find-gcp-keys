@@ -25,8 +25,18 @@ find_gcp_keys <dir_path>
 As a library:
 
 ```
-import find_gcp_keys
+from find_gcp_keys import find_key_paths, find_valid_keys, is_valid_key
 ...
-for path in find_gcp_keys.search(dir_path):
-  print(path)
+
+# Determine if a given file is a valid key
+if is_valid_key(file_path):
+  ...
+
+# recursively search for valid keys
+for path in find_valid_keys(dir_path):
+  ...
+
+# recursively search for possible keys, but don't validate them
+for path in find_key_paths(dir_path):
+  ...
 ```

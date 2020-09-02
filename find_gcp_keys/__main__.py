@@ -51,7 +51,7 @@ def is_valid_key(file_path: str):
         return False
 
 
-def search(dir_path: str):
+def find_valid_keys(dir_path: str):
     """ Recursively walks `dir_path` and finds valid GCP SA keys """
     for path in find_key_paths(dir_path):
         if is_valid_key(path):
@@ -63,7 +63,7 @@ def main():
     args = parse_args()
 
     found = False
-    for path in search(args.dir_path):
+    for path in find_valid_keys(args.dir_path):
         print(path, file=sys.stderr)
         found = True
 
