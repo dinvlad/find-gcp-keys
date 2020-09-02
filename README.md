@@ -21,7 +21,7 @@ pip3 install find-gcp-keys
 As a command-line utility:
 
 ```
-find-gcp-keys <dir_path>
+find-gcp-keys <dir_path> [--no-validate/-n]
 ```
 
 As a library:
