@@ -25,18 +25,18 @@ def parse_args():
     return parser.parse_args()
 
 
+# For requirements on GCP project IDs, see
+# https://cloud.google.com/resource-manager/docs/creating-managing-projects
+PROJECT_PATTERN = r"[a-z][a-z0-9\-]{4,28}[a-z0-9]"
+FILE_PATTERN = re.compile(PROJECT_PATTERN + r"-[0-9a-f]{12}\.json")
+
+
 def find_key_paths(dir_path: str):
     """ Finds files whose name matches the JSON SA key pattern """
-
-    # For requirements on GCP project IDs, see
-    # https://cloud.google.com/resource-manager/docs/creating-managing-projects
-    project_pattern = r"[a-z][a-z0-9\-]{4,28}[a-z0-9]"
-    file_pattern = re.compile(project_pattern + r"-[0-9a-f]{12}\.json")
-
-    with os.scandir(dir_path) as dir_iter:
-        for file in dir_iter:
-            if file_pattern.match(file.name):
-                yield file.path
+    for dirpath, _, files in os.walk(dir_path):
+        for file in files:
+            if FILE_PATTERN.match(file):
+                yield os.path.join(dirpath, file)
 
 
 def is_valid_key(file_path: str):
