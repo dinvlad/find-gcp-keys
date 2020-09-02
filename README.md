@@ -1,7 +1,7 @@
 # find-gcp-keys
 
 This tool finds and prints valid Google Service Account keys on your filesystem.
-This is useful to keep track of any unexpired/non-disabled keys you may have.
+This is useful for keeping track of any unexpired/non-disabled keys you may have.
 
 It does NOT require any special permissions,
 or even to be authenticated with Google Cloud SDK.
