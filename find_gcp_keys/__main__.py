@@ -20,7 +20,12 @@ def parse_args():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        dest='dir_path', help='Directory path to search recursively',
+        dest='dir_path',
+        help='Directory path to search recursively',
+    )
+    parser.add_argument(
+        '--no-validate', '-n', action='store_true',
+        help='Directory path to search recursively',
     )
     return parser.parse_args()
 
@@ -61,6 +66,11 @@ def find_valid_keys(dir_path: str):
 def main():
     """ Main entrypoint """
     args = parse_args()
+
+    if args.no_validate:
+        for path in find_key_paths(args.dir_path):
+            print(path)
+        sys.exit(0)
 
     found = False
     for path in find_valid_keys(args.dir_path):
