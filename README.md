@@ -10,10 +10,23 @@ or even to be authenticated with Google Cloud SDK.
 
 Python 3.7+
 
-## Usage
+## Installation
 
-```
 pip3 install find-gcp-keys
 
+## Usage
+
+As a command-line utility:
+
+```
 find_gcp_keys <dir_path>
+```
+
+As a library:
+
+```
+import find_gcp_keys
+...
+for path in find_gcp_keys.search(dir_path):
+  print(path)
 ```
