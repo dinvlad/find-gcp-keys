@@ -12,7 +12,9 @@ Python 3.7+
 
 ## Installation
 
+```
 pip3 install find-gcp-keys
+```
 
 ## Usage
 
@@ -24,7 +26,7 @@ find_gcp_keys <dir_path>
 
 As a library:
 
-```
+```py
 from find_gcp_keys import find_key_paths, find_valid_keys, is_valid_key
 ...
 
@@ -33,10 +35,10 @@ if is_valid_key(file_path):
   ...
 
 # recursively search for valid keys
-for path in find_valid_keys(dir_path):
+for file_path in find_valid_keys(dir_path):
   ...
 
 # recursively search for possible keys, but don't validate them
-for path in find_key_paths(dir_path):
+for file_path in find_key_paths(dir_path):
   ...
 ```
