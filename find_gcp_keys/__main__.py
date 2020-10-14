@@ -57,7 +57,7 @@ def is_valid_key(file_path: str):
         )
         credentials.refresh(google.auth.transport.requests.Request())
         return True
-    except (AttributeError, ValueError, google.auth.exceptions.RefreshError):
+    except (AttributeError, FileNotFoundError, ValueError, google.auth.exceptions.RefreshError):
         return False
 
 
