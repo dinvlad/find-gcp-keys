@@ -27,20 +27,25 @@ def parse_args():
         '--no-validate', '-n', action='store_true',
         help='Directory path to search recursively',
     )
+    parser.add_argument(
+        '--file-pattern', '-p', default=PROJECT_JSON_PATTERN,
+        help='Pattern to match JSON file names against',
+    )
     return parser.parse_args()
 
 
 # For requirements on GCP project IDs, see
 # https://cloud.google.com/resource-manager/docs/creating-managing-projects
 PROJECT_PATTERN = r"[a-z][a-z0-9\-]{4,28}[a-z0-9]"
-FILE_PATTERN = re.compile(PROJECT_PATTERN + r"-[0-9a-f]{12}\.json")
+PROJECT_JSON_PATTERN = PROJECT_PATTERN + r"-[0-9a-f]{12}\.json"
 
 
-def find_key_paths(dir_path: str):
-    """ Finds files whose name matches the JSON SA key pattern """
+def find_key_paths(dir_path: str, file_pattern: str):
+    """ Finds files whose name matches `file_pattern` """
+    file_re = re.compile(file_pattern)
     for dirpath, _, files in os.walk(dir_path):
         for file in files:
-            if FILE_PATTERN.match(file):
+            if file_re.match(file):
                 yield os.path.join(dirpath, file)
 
 
@@ -52,13 +57,13 @@ def is_valid_key(file_path: str):
         )
         credentials.refresh(google.auth.transport.requests.Request())
         return True
-    except (ValueError, google.auth.exceptions.RefreshError):
+    except (AttributeError, ValueError, google.auth.exceptions.RefreshError):
         return False
 
 
-def find_valid_keys(dir_path: str):
+def find_valid_keys(dir_path: str, file_pattern: str):
     """ Recursively walks `dir_path` and finds valid GCP SA keys """
-    for path in find_key_paths(dir_path):
+    for path in find_key_paths(dir_path, file_pattern):
         if is_valid_key(path):
             yield path
 
@@ -68,12 +73,12 @@ def main():
     args = parse_args()
 
     if args.no_validate:
-        for path in find_key_paths(args.dir_path):
+        for path in find_key_paths(args.dir_path, args.file_pattern):
             print(path)
         sys.exit(0)
 
     found = False
-    for path in find_valid_keys(args.dir_path):
+    for path in find_valid_keys(args.dir_path, args.file_pattern):
         print(path, file=sys.stderr)
         found = True
 

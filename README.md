@@ -18,13 +18,20 @@ pip3 install find-gcp-keys
 
 ## Usage
 
-As a command-line utility:
+### Command line
 
 ```
-find-gcp-keys <dir_path> [--no-validate/-n]
+find-gcp-keys <dir_path> [--no-validate/-n] [--file-pattern <regex>]
 ```
 
-As a library:
+Note that by default, the CLI only searches for the JSON key files
+matching a particular pattern (`<project-id>-<key-id>.json`). You can
+override this behavior, e.g. to search for _all_ JSON files:
+```
+find-gcp-keys <dir_path> -p '.*\.json'
+```
+
+### Library:
 
 ```py
 from find_gcp_keys import find_key_paths, find_valid_keys, is_valid_key
